@@ -1,14 +1,11 @@
-# spring test
+# Spring use zookeeper as PropertySource configuration 
 
-A minimal spring test project, try to figure out the BeanFactoryPostProcessor usage in XML file.
+A minimal spring test project, try to use zookeeper for bean's configuration center.
 
-run
+## Install
+you must a zookeeper instance, and change config.zookeeper in file `ApplicationResources.properties` accodingly.
+
+## Run
 
      mvn test
      
- gives error
-	 
-	 org.junit.ComparisonFailure: expected:<[foo]> but was:<[${dummy}]>
-		at org.junit.Assert.assertEquals(Assert.java:115)
-		at org.junit.Assert.assertEquals(Assert.java:144)
-		at com.ssll.SpringBeanZKTest.testCreateObjectById    (SpringBeanZKTest.java:14)
