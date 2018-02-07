@@ -9,12 +9,14 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
 
 public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {  
-
+    private static final String ZK_CONFIG_SPRING_PATH="default";
+    private String path=ZK_CONFIG_SPRING_PATH;
+    public void setPath(String path){this.path=path;}
+    
 	@Override
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {  
-        System.out.println("This is expected to called when the BeanFactory is created");  
 
-		Properties p  = Config.getZooProperties();
+		Properties p  = Config.getZooProperties(path);
 		PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
 		cfg.setProperties(p);
 		cfg.postProcessBeanFactory(beanFactory);     

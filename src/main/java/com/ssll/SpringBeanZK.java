@@ -5,8 +5,8 @@ import java.net.URL;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
@@ -19,26 +19,25 @@ public class SpringBeanZK {
 	}
 
 	public void destroy() {
-		if (m_oXMLlBeanFactory == null) {
-			return;
-		} else {
-			m_oXMLlBeanFactory.destroySingletons();
-			m_oXMLlBeanFactory = null;
-			return;
+		if (m_oXMLBeanFactory != null) {
+		 
+			m_oXMLBeanFactory.destroy();
+			
+			m_oXMLBeanFactory = null;
 		}
 	}
 
-	private DefaultListableBeanFactory getXMLlBeanFactory() {
-		if (m_oXMLlBeanFactory == null)
+	private GenericApplicationContext getXMLlBeanFactory() {
+		if (m_oXMLBeanFactory == null)
 			initFactory();
-		return m_oXMLlBeanFactory;
+		return m_oXMLBeanFactory;
 	}
 
 	/**
 	 * use log4j Loader
 	 */
 	private synchronized void initFactory() {
-		if (m_oXMLlBeanFactory != null) {
+		if (m_oXMLBeanFactory != null) {
 			return;
 		} else {
 
@@ -53,10 +52,12 @@ public class SpringBeanZK {
 				mLog.debug("Could not find resource: [" + beanConfigFile + "].");
 			}
 
-			m_oXMLlBeanFactory = new DefaultListableBeanFactory();
-			XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader((BeanDefinitionRegistry) m_oXMLlBeanFactory);
+			m_oXMLBeanFactory = new GenericApplicationContext();
+			XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader((BeanDefinitionRegistry) m_oXMLBeanFactory);
 
 			reader.loadBeanDefinitions(resource);
+			
+			m_oXMLBeanFactory.refresh();
 
 			// Properties p =
 			// Config.getZooProperties(ZK_CONFIG_SPRING_PATH+"/"+configProperties);
@@ -68,6 +69,6 @@ public class SpringBeanZK {
 		}
 	}
 
-	private DefaultListableBeanFactory m_oXMLlBeanFactory;
+	private GenericApplicationContext m_oXMLBeanFactory;
 
 }

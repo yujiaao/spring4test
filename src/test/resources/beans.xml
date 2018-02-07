@@ -8,8 +8,9 @@
 		">
 	
 		
-	<bean id="myBeanFactoryPostProcessor" class="com.ssll.MyBeanFactoryPostProcessor" />
-		
+	<bean id="myBeanFactoryPostProcessor" class="com.ssll.MyBeanFactoryPostProcessor" >
+	<property name="path" value="custompath" />
+	</bean>
  	<bean id="myobj" class="com.ssll.MyFoo">
 			<property name="realname" value="${dummy}" />
 	 </bean>
